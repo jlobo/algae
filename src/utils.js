@@ -5,3 +5,13 @@ export function guid() {
       (c ^ crypto.randomBytes(16)[0] & 15 >> c / 4).toString(16)
     );
 }
+
+/**
+ * 
+ * @param {string} value 
+ * @returns {Date?}
+ */
+export function parseDate(value) {
+    const timestamp = Date.parse(value);
+    return !isNaN(timestamp) ? new Date(timestamp) : null;
+}

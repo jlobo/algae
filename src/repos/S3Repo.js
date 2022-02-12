@@ -10,15 +10,18 @@ export default class S3Repo {
     }
 
     /**
-     * @param {string} data 
+     * @param {string|object} data 
      * @param {string} resourceName 
      * @returns {Promise<S3Entry>}
      */
     async insert(data, resourceName = '') {
+        if (typeof data !== 'string')
+            data = JSON.stringify(data, null, 2)
+
         const params = {
             Bucket: this._bucket,
             Key: resourceName || guid(),
-            Body: JSON.stringify(data, null, 2)
+            Body: data
         };
 
         const entry = await this._s3.upload(params).promise();

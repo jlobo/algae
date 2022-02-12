@@ -3,6 +3,9 @@
 AWS_URL := http://localhost:4566
 AWS_BUCKET := main
 
+dev:
+	npx nodemon -r esm src/app.js
+
 up:
 	docker-compose up
 

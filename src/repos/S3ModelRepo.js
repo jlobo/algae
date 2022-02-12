@@ -15,6 +15,15 @@ export default class S3ModelRepo {
     }
 
     /**
+     * @param {number} id 
+     * @returns {Promise<S3Entry[]>}
+     */
+     async getAll() {
+        const entries = await models.S3Entry.findAll();
+        return entries.map(S3Entry.fromModel);
+    }
+
+    /**
      * @param {Date} from 
      * @param {Date} to 
      * @returns {Promise<S3Entry[]>}

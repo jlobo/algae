@@ -11,13 +11,13 @@ export default class S3Repo {
 
     /**
      * @param {string} data 
-     * @param {string} filename 
+     * @param {string} resourceName 
      * @returns {Promise<S3Entry>}
      */
-    async upload(data, filename = '') {
+    async insert(data, resourceName = '') {
         const params = {
             Bucket: this._bucket,
-            Key: filename || guid(),
+            Key: resourceName || guid(),
             Body: JSON.stringify(data, null, 2)
         };
 
@@ -25,7 +25,7 @@ export default class S3Repo {
         return S3Entry.fromS3(entry);
     }
 
-    /** @returns {Promise<S3Entry>} */
+    /** @returns {Promise<S3Entry[]>} */
     async all() {
         var params = { Bucket: this._bucket}
         var entries = await this._s3.listObjects(params).promise();

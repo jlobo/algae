@@ -28,4 +28,6 @@ migrate:
 	@read -p "Enter the new migration file: " name; \
 	[ -z "$$name" ] && echo "Full name cannot be empty" && return 1 || \
 	npx sequelize migration:generate --name "$$name"
-	
+
+test: reset
+	npx mocha --timeout 30000 -r esm 'src/tests/**/*.js'

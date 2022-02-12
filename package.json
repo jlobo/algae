@@ -2,8 +2,10 @@
   "name": "algae",
   "version": "0.0.1",
   "description": "API for logging IOT devices",
-  "main": "src/app.js",
+  "main": "lib/app.js",
   "scripts": {
+    "start": "node lib/app.js",
+    "build": "rimraf lib; babel src --out-dir lib --source-maps",
     "dev": "nodemon -r esm src/app.js",
     "test": "mocha --timeout 30000 -r esm 'src/tests/**/*.js'"
   },
@@ -21,12 +23,14 @@
     "sequelize": "^6.16.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.2",
     "@babel/preset-env": "^7.16.11",
     "@babel/register": "^7.17.0",
     "esm": "^3.2.25",
     "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
+    "rimraf": "^3.0.2",
     "sequelize-cli": "^6.4.1"
   }
 }

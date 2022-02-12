@@ -21,7 +21,7 @@ export default class S3config {
         if (!process.env.AWS_S3_BUKET)
             throw Error("AWS_S3_BUKET environment variable must be set");
 
-        return process.env.AWS_S3_BUKET;
+        return process.env.AWS_S3_BUKET || 'main';
     }
 
     static get endpoint() {

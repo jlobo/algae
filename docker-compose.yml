@@ -14,5 +14,16 @@ services:
     volumes:
       - s3-data:/tmp/s3
 
+  db:
+      image: timescale/timescaledb:latest-pg13
+      environment:
+          POSTGRES_PASSWORD: "123456"
+          NO_TS_TUNE: "true"
+      volumes:
+          - db-data:/var/lib/postgresql/data
+      ports:
+          - "5432:5432"
+
 volumes:
   s3-data:
+  db-data:

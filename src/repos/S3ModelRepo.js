@@ -30,4 +30,13 @@ export default class S3ModelRepo {
 
         return entries.map(S3Entry.fromModel);
     }
+
+    /**
+     * @param {S3Entry} entry 
+     * @returns {Promise<S3Entry>}
+     */
+     async insert(entry) {
+        const newEntry = await models.S3Entry.create(entry);
+        return S3Entry.fromModel(newEntry);
+    }
 }

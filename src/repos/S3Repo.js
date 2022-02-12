@@ -1,11 +1,12 @@
+import { S3 } from 'aws-sdk';
 import { guid } from "../utils"
 import { S3Entry } from '../entities/S3Entry';
 import config from '../config/s3.config';
 
 export default class S3Repo {
-    constructor(bucket="main") {
-        this._bucket = bucket;
-        this._s3 = config.buildS3();
+    constructor() {
+        this._bucket = config.bucket;
+        this._s3 = new S3(config.buildS3());
     }
 
     /**
@@ -22,5 +23,15 @@ export default class S3Repo {
 
         const entry = await this._s3.upload(params).promise();
         return S3Entry.fromS3(entry);
+    }
+
+    /** @returns {Promise<S3Entry>} */
+    async all() {
+        var params = { Bucket: this._bucket}
+        var entries = await this._s3.listObjects(params).promise();
+
+        if (!entries.Contents) return [];
+        
+        return entries.Contents.map(S3Entry.fromS3);
     }
 }

@@ -1,5 +1,4 @@
 import "dotenv/config"
-import { S3 } from 'aws-sdk';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -30,11 +29,11 @@ export default class S3config {
     }
 
     static buildS3() {
-        return new S3({
+        return {
             accessKeyId: S3config.id,
             secretAccessKey: S3config.secret,
             endpoint: S3config.endpoint,
             s3ForcePathStyle: !isProd,
-        });
+        };
     }
 }

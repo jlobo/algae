@@ -1,9 +1,10 @@
 export class S3Entry {
     constructor() {
-        this.id = 0;
+        /** @type {number} */
+        this.id = null;
         this.url = '';
         this.resource = '';
-        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 
     /** @returns {S3Entry} */
@@ -13,7 +14,7 @@ export class S3Entry {
         entity.id = entry.id;
         entity.url = entry.url;
         entity.resource = entry.resource;
-        entity.createdAt = entity.createdAt;
+        entity.updatedAt = entity.updatedAt;
 
         return entity;
     }
@@ -22,9 +23,13 @@ export class S3Entry {
     static fromS3(entry) {
         var entity = new S3Entry();
         
-        entity.url = entry.Location;
         entity.resource = entry.Key;
-        entity.createdAt = new Date();
+
+        if (entry.Location)
+            entity.url = entry.Location;
+        
+        if (entry.LastModified)
+            entity.updatedAt = entry.LastModified;
         
         return entity;
     }

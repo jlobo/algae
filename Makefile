@@ -39,3 +39,10 @@ migrate:
 	@read -p "Enter the new migration file: " name; \
 	[ -z "$$name" ] && echo "Full name cannot be empty" && return 1 || \
 	npx sequelize migration:generate --name "$$name"
+
+release:
+	@read -p "Enter the new revision [major|minor|patch]: " revision; \
+	[ -z "$$revision" ] && echo "Revision cannot be empty" && return 1 || \
+	version=$$(npm version "$$revision") \
+	&& branch=$$(git symbolic-ref --short HEAD) \
+	&& git push --atomic origin "$$branch" "$$version"

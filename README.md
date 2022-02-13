@@ -2,6 +2,8 @@
 
 This project consists of a Web API that receives a message and stores it in an `S3` bucket, in addition to saving a record of the action in a `Postgres` database with a configured `Timescale`.
 
+> ***You can try postman at this [Web API](http://ec2-54-252-187-173.ap-southeast-2.compute.amazonaws.com:8080)***
+
 ### API Definition
 
 | API                             | Description                   | Request body | Response body |
@@ -86,6 +88,10 @@ make up
 ### How to test it?
 ```bash
 make test
+```
+### How to make a new release?
+```bash
+make release
 ```
 
 ### Things to fix 

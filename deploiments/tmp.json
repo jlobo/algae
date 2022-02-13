@@ -1,0 +1,133 @@
+{
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "algae",
+            "image": "jlob0/algae:v0.0.2",
+            "memory": "200",
+            "resourceRequirements": null,
+            "essential": false,
+            "portMappings": [
+                {
+                    "hostPort": "8080",
+                    "containerPort": "8080",
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "AWS_ACCESS_KEY",
+                    "value": "AKIASVPTRYQLZAUZEL76"
+                },
+                {
+                    "name": "AWS_S3_BUKET",
+                    "value": "algae-storage"
+                },
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "value": "8B8axXvZKJRG3JbiCUDAgBstuUg67swB+SSBCfjx"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "db"
+                },
+                {
+                    "name": "DB_NAME",
+                    "value": "algae"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "123456"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "NODE_ENV",
+                    "value": "production"
+                }
+            ],
+            "environmentFiles": [],
+            "secrets": null,
+            "links": [
+                "db"
+            ],
+            "mountPoints": null,
+            "volumesFrom": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "extraHosts": null,
+            "logConfiguration": null,
+            "ulimits": null,
+            "dockerLabels": null,
+            "dependsOn": [
+                {
+                    "containerName": "db",
+                    "condition": "START"
+                }
+            ],
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            }
+        },
+        {
+            "name": "db",
+            "image": "timescale/timescaledb:latest-pg13",
+            "memory": "200",
+            "resourceRequirements": null,
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": "5432",
+                    "containerPort": "5432",
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "NO_TS_TUNE",
+                    "value": "true"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "123456"
+                }
+            ],
+            "environmentFiles": [],
+            "secrets": null,
+            "mountPoints": null,
+            "volumesFrom": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "extraHosts": null,
+            "logConfiguration": null,
+            "ulimits": null,
+            "dockerLabels": null,
+            "dependsOn": null,
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            },
+            "healthCheck": {
+                "command": [
+                    "pg_isready -U postgres"
+                ],
+                "interval": "10",
+                "timeout": "5",
+                "retries": "5",
+                "startPeriod": "10"
+            }
+        }
+    ],
+    "volumes": [],
+    "networkMode": null,
+    "memory": "400",
+    "cpu": "700",
+    "placementConstraints": [],
+    "family": "algae-task-v2",
+    "tags": []
+}

@@ -1,4 +1,6 @@
-require("@babel/register");
+if (!process.env.IS_CONTAINER || process.env.IS_CONTAINER != "true") {
+   require("@babel/register");
+}
 
 const path = require("path");
 

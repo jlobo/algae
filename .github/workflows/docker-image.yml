@@ -1,26 +1,26 @@
 name: Build and Publish
 
 on:
-  # run it on push to the default repository branch
   push:
-    branches: [dev]
-  # run it during pull request
-  pull_request:
-    branches: [ dev ]
+    tags: ['*']
 
 jobs:
-  # define job to build and publish docker image
   build-and-push:
     name: Build Docker image and push to repositories
-    # run only when code is compiling and tests are passing
     runs-on: ubuntu-latest
 
-    # steps to perform in job
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # setup Docker buld action
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            jlob0/algae
+            ghcr.io/jlobo/algae
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -41,14 +41,10 @@ jobs:
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
-          # relative path to the place where source code with Dockerfile is located
           context: .
-          # Note: tags has to be all lower-case
-          tags: |
-            jlob0/algae:latest 
-            ghcr.io/jlobo/algae:latest
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/dev' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          push: ${{ startsWith(github.ref, 'refs/tags/') }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

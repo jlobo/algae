@@ -29,11 +29,18 @@ export default class S3config {
     }
 
     static buildS3() {
-        return {
+        const config = {
             accessKeyId: S3config.id,
             secretAccessKey: S3config.secret,
             endpoint: S3config.endpoint,
             s3ForcePathStyle: !isProd,
         };
+
+        if (isProd) {
+            delete config.endpoint;
+            delete config.s3ForcePathStyle;
+        }
+
+        return config;
     }
 }

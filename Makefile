@@ -1,4 +1,4 @@
-.PHONY: up down dev test reset seed migrate
+.PHONY: build up down dev test reset migration release
 
 AWS_URL := http://localhost:4566
 AWS_BUCKET := main
@@ -11,9 +11,6 @@ up: build
 
 down:
 	docker-compose down
-
-push: build
-	docker push jlob0/algae
 
 dev:
 	npx nodemon -r esm src/app.js
@@ -30,12 +27,7 @@ reset:
 		&& npx sequelize-cli db:create \
 		&& npx sequelize-cli db:migrate
 
-seed:
-	@read -p "Enter name of the seed: " name; \
-	[ -z "$$name" ] && echo "Full name cannot be empty" && return 1 || \
-	npx sequelize-cli seed:generate --name "$$name"
-
-migrate:
+migration:
 	@read -p "Enter the new migration file: " name; \
 	[ -z "$$name" ] && echo "Full name cannot be empty" && return 1 || \
 	npx sequelize migration:generate --name "$$name"
